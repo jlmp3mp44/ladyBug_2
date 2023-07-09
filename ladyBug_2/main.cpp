@@ -21,10 +21,15 @@ int main()
     std::vector<Sprite> flowers = flower.getFlowers();
 
     Font font;
-    if (!font.loadFromFile("C:/Windows/Fonts/BRITANNIC.ttf")) {
+    if (!font.loadFromFile("C:/Windows/Fonts/BRITANIC.ttf")) {
         std::cout << "File didn`t found" << " ";
     }
     Text text("Scale", font);
+    text.setCharacterSize(24);
+    text.setFillColor(Color::Black);
+    text.setPosition(50, 20);
+
+    int dynamScale = 0;
 
     RenderWindow window(VideoMode(650, 650), "LADYBUG!");
     while (window.isOpen())
@@ -56,8 +61,12 @@ int main()
                 ladyBugSprite = ladyBug.getLadyBug();
                 window.draw(ladyBugSprite);
             }
+            dynamScale = ladyBug.updateScale(dynamScale, flowers);
+            text.setString("Scale: " + std::to_string(dynamScale));
+            window.draw(text);
         }
 
+        window.clear();
         window.draw(backgroundSprite);
         window.draw(ladyBugSprite);
         for (int i = 0; i < flowers.size(); i++) {

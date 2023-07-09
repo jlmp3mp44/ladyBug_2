@@ -1,7 +1,7 @@
 #include "Flowers.h"
 
 Flowers::Flowers() {
-    for (int i = 0; i < 37; i++) {
+    for (int i = 0; i < 10; i++) {
         sf::Color color(i * 50, i * 25, i * 3);
         flowers.push_back(makeFlowers(color));
         flowers[i].setScale(0.05f, 0.05f);

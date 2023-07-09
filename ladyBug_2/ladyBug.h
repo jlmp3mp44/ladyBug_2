@@ -19,4 +19,3 @@ public:
 };
 
 #endif // LADYBUG_H
-

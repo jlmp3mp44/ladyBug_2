@@ -34,9 +34,16 @@ void LadyBug::updatePosition(const sf::Vector2f& offset) {
 
 int LadyBug::updateScale(int scale, const std::vector<sf::Sprite>& flowers) {
     sf::FloatRect ladyBounds = ladyBugSprite.getGlobalBounds();
+
     for (int i = 0; i < flowers.size(); i++) {
-        if (flowers[i].getGlobalBounds().intersects(ladyBounds))
-            scale += 10;
+        if (flowers[i].getGlobalBounds().intersects(ladyBounds)) {
+            scale++;
+            break;
+        }
     }
     return scale;
 }
+
+
+
+
