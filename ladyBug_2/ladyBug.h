@@ -15,7 +15,9 @@ public:
     LadyBug();
     sf::Sprite getLadyBug();
     void updatePosition(const sf::Vector2f& offset);
-    int updateScale(int scale, const std::vector<sf::Sprite>& flowers);
+    int updateScale(int scale, const std::vector<sf::Sprite> flowers, std::vector<sf::Sprite>& flowersCome);
+    bool contains(sf::Sprite sprite, const std::vector<sf::Sprite>& targetSprites);
+    bool foundBounds(int x, int y);
 };
 
 #endif // LADYBUG_H

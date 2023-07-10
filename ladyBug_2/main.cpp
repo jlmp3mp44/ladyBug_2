@@ -20,6 +20,18 @@ int main()
     Flowers flower;
     std::vector<Sprite> flowers = flower.getFlowers();
 
+    Sprite sprite;
+    std::vector<Sprite> flowersCome;
+    for (int i = 0; i < flowers.size(); i++) {
+        sprite.setPosition(i*15, i * 30);
+        flowersCome.push_back(sprite);
+        if (flowersCome[i].getGlobalBounds() == flowers[i].getGlobalBounds()) {
+            std::cout << 9;
+        }
+    }
+
+
+
     Font font;
     if (!font.loadFromFile("C:/Windows/Fonts/BRITANIC.ttf")) {
         std::cout << "File didn`t found" << " ";
@@ -33,48 +45,67 @@ int main()
 
     RenderWindow window(VideoMode(650, 650), "LADYBUG!");
     while (window.isOpen())
+
     {
         Event event;
         while (window.pollEvent(event))
         {
             if (event.type == Event::Closed)
                 window.close();
-        }
-        if (event.type == Event::KeyPressed) {
-            if (event.key.code == Keyboard::Left) {
-                ladyBug.updatePosition(Vector2f(-1, 0));
-                ladyBugSprite = ladyBug.getLadyBug();
-                window.draw(ladyBugSprite);
-            }
-            if (event.key.code == Keyboard::Right) {
-                ladyBug.updatePosition(Vector2f(1, 0));
-                ladyBugSprite = ladyBug.getLadyBug();
-                window.draw(ladyBugSprite);
-            }
-            if (event.key.code == Keyboard::Down) {
-                ladyBug.updatePosition(Vector2f(0, 1));
-                ladyBugSprite = ladyBug.getLadyBug();
-                window.draw(ladyBugSprite);
-            }
-            if (event.key.code == Keyboard::Up) {
-                ladyBug.updatePosition(Vector2f(0, -1));
-                ladyBugSprite = ladyBug.getLadyBug();
-                window.draw(ladyBugSprite);
-            }
-            dynamScale = ladyBug.updateScale(dynamScale, flowers);
-            text.setString("Scale: " + std::to_string(dynamScale));
-            window.draw(text);
-        }
 
-        window.clear();
-        window.draw(backgroundSprite);
-        window.draw(ladyBugSprite);
-        for (int i = 0; i < flowers.size(); i++) {
-            window.draw(flowers[i]);
+            if (event.type == Event::KeyPressed)
+            {
+                if (event.key.code == Keyboard::Left)
+                {
+                    ladyBug.updatePosition(Vector2f(-5, 0));
+                    ladyBugSprite = ladyBug.getLadyBug();
+                    window.draw(ladyBugSprite);
+                }
+                else if (event.key.code == Keyboard::Right)
+                {
+                    ladyBug.updatePosition(Vector2f(5, 0));
+                    ladyBugSprite = ladyBug.getLadyBug();
+                    window.draw(ladyBugSprite);
+                }
+                else if (event.key.code == Keyboard::Down)
+                {
+                    ladyBug.updatePosition(Vector2f(0, 5));
+                    ladyBugSprite = ladyBug.getLadyBug();
+                    window.draw(ladyBugSprite);
+                }
+                else if (event.key.code == Keyboard::Up)
+                {
+                    ladyBug.updatePosition(Vector2f(0, -5));
+                    ladyBugSprite = ladyBug.getLadyBug();
+                    window.draw(ladyBugSprite);
+                }
+                else if (event.key.code == Keyboard::Space) {
+                    if (ladyBug.foundBounds(window.getSize().x, window.getSize().y)) {
+                        std::cout << "LadyBug is out of bounds. Resetting position." << std::endl;
+                        ladyBug.updatePosition(Vector2f(0, 0));
+                        ladyBugSprite = ladyBug.getLadyBug();
+                        ladyBugSprite.setPosition(325, 325);
+                        window.draw(ladyBugSprite); // Redraw the ladyBugSprite
+                    }
+                }
+
+                
+                dynamScale = ladyBug.updateScale(dynamScale, flowers, flowersCome);
+                ladyBugSprite = ladyBug.getLadyBug();
+                text.setString("Scale: " + std::to_string(dynamScale));
+                window.draw(text);
+            }
         }
-        window.draw(text);
-        window.display();
-    }
+            window.clear();
+            window.draw(backgroundSprite);
+            window.draw(ladyBugSprite);
+            for (int i = 0; i < flowers.size(); i++) {
+                window.draw(flowers[i]);
+            }
+            window.draw(text);
+            window.display();
+        }
+    
 
     return 0;
 }
