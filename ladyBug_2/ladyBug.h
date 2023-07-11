@@ -10,7 +10,7 @@ private:
     sf::Texture textureLadyBug;
     sf::Sprite ladyBugSprite;
     sf::Vector2f position;
-
+   
 public:
     LadyBug();
     sf::Sprite getLadyBug();
@@ -18,6 +18,8 @@ public:
     int updateScale(int scale, const std::vector<sf::Sprite> flowers, std::vector<sf::Sprite>& flowersCome);
     bool contains(sf::Sprite sprite, const std::vector<sf::Sprite>& targetSprites);
     bool foundBounds(int x, int y);
+    void playSound();
+
 };
 
 #endif // LADYBUG_H

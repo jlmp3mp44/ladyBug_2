@@ -1,15 +1,23 @@
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include "LadyBug.h"
 #include <iostream>
+#include <SFML/Audio.hpp>
+
+
+static sf::SoundBuffer buffer;
+static sf::Sound sound;
 
 LadyBug::LadyBug() {
-    if (!textureLadyBug.loadFromFile("D:/C++/ladybug/ladybag.png")) {
-        return;
-    }
+    if (!textureLadyBug.loadFromFile("D:/C++/ladybug/ladybag.png") || (!buffer.loadFromFile("C:/Windows/Media/chord.wav"))) {
+            return;
+        }
+   
     ladyBugSprite.setTexture(textureLadyBug);
     ladyBugSprite.setScale(0.14f, 0.14f);
     ladyBugSprite.setPosition(500, 600);
-
     position = sf::Vector2f(500, 600);
+
 }
 
 sf::Sprite LadyBug::getLadyBug() {
@@ -21,7 +29,7 @@ void LadyBug::updatePosition(const sf::Vector2f& offset) {
     ladyBugSprite.setPosition(position);
 
     float angle = 0.0f;
-    if (offset.x < 0)
+    if (offset.x < 0) 
         angle = 0.0f;
     else if (offset.x > 0)
         angle = 180.0f;
@@ -29,15 +37,18 @@ void LadyBug::updatePosition(const sf::Vector2f& offset) {
         angle = 90.0f;
     else if (offset.y > 0)
         angle = -90.0f;
-
+   
     ladyBugSprite.setRotation(angle);
 }
 
-int LadyBug::updateScale(int scale, const std::vector<sf::Sprite> flowers, std::vector<sf::Sprite>& flowersCome) {
+int LadyBug::updateScale(int scale, const std::vector<sf::Sprite> flowers,
+                         std::vector<sf::Sprite>& flowersCome) {
     sf::FloatRect ladyBounds = ladyBugSprite.getGlobalBounds();
 
+   
     for (int i = 0; i < flowers.size(); i++) {\
         if ((flowers[i].getGlobalBounds().intersects(ladyBounds)) && (!contains(flowers[i], flowersCome))) {
+            playSound();
             scale++;
             flowersCome[i].setPosition(flowers[i].getPosition());
             break;
@@ -64,6 +75,14 @@ bool LadyBug::contains(sf::Sprite sprite, const std::vector<sf::Sprite>& targetS
         }
     return false;
 }
+
+void LadyBug::playSound() {
+    sound.setBuffer(buffer);
+    sound.play();
+}
+
+
+
 
 
 

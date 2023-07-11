@@ -1,7 +1,8 @@
 #include "Flowers.h"
+#include <random>
 
 Flowers::Flowers() {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 40; i++) {
         sf::Color color(i * 50, i * 25, i * 3);
         flowers.push_back(makeFlowers(color));
         flowers[i].setScale(0.05f, 0.05f);
@@ -11,16 +12,19 @@ Flowers::Flowers() {
 sf::Sprite Flowers::makeFlowers(sf::Color color) {
     sf::Texture textureFlower;
     if (!textureFlower.loadFromFile("D:/C++/ladybug/flower.png")) {
-        // Error handling if failed to load flower image
-        return sf::Sprite(); // Return an empty sprite in case of failure
+        // Обробка помилки, якщо не вдалося завантажити зображення квітки
+        return sf::Sprite(); // Повернути пустий спрайт у разі невдалого завантаження
     }
 
-    const int maxAttempts = 100;
+    const int maxAttempts = 150;
     const float minDistance = 5.0f;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(-80, 600);
 
     for (int i = 0; i < maxAttempts; i++) {
-        int randomX = rand() % 600 - 100;
-        int randomY = rand() % 600 - 100;
+        int randomX = dis(gen);
+        int randomY = dis(gen);
 
         sf::Sprite flowerSprite(textureFlower);
         flowerSprite.setColor(color);

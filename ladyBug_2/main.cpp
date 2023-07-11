@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Audio.hpp>
 #include <sstream>
 #include <iostream>
 
@@ -11,6 +12,13 @@ using namespace sf;
 
 int main()
 {
+    sf::SoundBuffer buffer;
+    buffer.loadFromFile("C:/Windows/Media/chord.wav");
+    sf::Sound sound;
+    sound.setBuffer(buffer);
+
+
+
     BackGround backGround;
     Sprite backgroundSprite = backGround.getSprite();
 
@@ -82,30 +90,28 @@ int main()
                 else if (event.key.code == Keyboard::Space) {
                     if (ladyBug.foundBounds(window.getSize().x, window.getSize().y)) {
                         std::cout << "LadyBug is out of bounds. Resetting position." << std::endl;
+                        ladyBugSprite.setPosition(325, 325);
                         ladyBug.updatePosition(Vector2f(0, 0));
                         ladyBugSprite = ladyBug.getLadyBug();
-                        ladyBugSprite.setPosition(325, 325);
-                        window.draw(ladyBugSprite); // Redraw the ladyBugSprite
                     }
                 }
 
-                
+                //////////////SCALE
                 dynamScale = ladyBug.updateScale(dynamScale, flowers, flowersCome);
                 ladyBugSprite = ladyBug.getLadyBug();
                 text.setString("Scale: " + std::to_string(dynamScale));
                 window.draw(text);
             }
         }
-            window.clear();
-            window.draw(backgroundSprite);
-            window.draw(ladyBugSprite);
-            for (int i = 0; i < flowers.size(); i++) {
-                window.draw(flowers[i]);
-            }
-            window.draw(text);
-            window.display();
+        window.clear();
+        window.draw(backgroundSprite);
+        window.draw(ladyBugSprite);
+        for (int i = 0; i < flowers.size(); i++) {
+            window.draw(flowers[i]);
+        }
+        window.draw(text);
+        window.display();
         }
     
-
     return 0;
 }
